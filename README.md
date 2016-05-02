@@ -1,3 +1,13 @@
+# DGPubsX Server Configuration using Ansible
+
+This project was built from the project which is documented below.
+To provision the target server clone this project to the server's /tmp directory (this should create /tmp/DGPubsX).
+Change directory to this new folder and run ansible-playbook as so...
+
+    cd /tmp/DGPubsX
+    ansible-playbook -vvv provisioning/playbook.yml --connection=local:
+
+
 # Simple Drupal Development VM
 
 **For a fully-featured VM environment for Drupal, please check out [Drupal VM](http://www.drupalvm.com/).**
