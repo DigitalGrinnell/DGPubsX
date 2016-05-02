@@ -91,7 +91,7 @@
       mysql_db: "db=test state=absent login_user={{ db_user }} login_password={{ db_password }}" 
 
     - name: Create a database for Drupal.
-      mysql_db: "db={{ site }} state=present login_user={{ db_user }} login_password={{ db_password }}" 
+      mysql_db: "db=drupal state=present login_user={{ db_user }} login_password={{ db_password }}"
 
     - name: Download Composer installer.
       get_url:
@@ -139,19 +139,22 @@
         --account-name=admin
         --account-pass=admin
         --db-url=mysql://root@localhost/{{ site }}
+        --db-su:{{ db_user }}
+        --db-su-pw:{{ db_password }}
+        --sites-subdir:{{ site }}
         chdir={{ drupal_core_path }}
-        creates={{ drupal_core_path }}/sites/default/settings.php
+        creates={{ drupal_core_path }}/sites/{{ site }}/settings.php
       notify: restart apache
 
     # SEE: https://drupal.org/node/2121849#comment-8413637
     - name: Set permissions properly on settings.php.
       file:
-        path: "{{ drupal_core_path }}/sites/default/settings.php"
+        path: "{{ drupal_core_path }}/sites/{{ site }}/settings.php"
         mode: 0744
 
     - name: Set permissions properly on files directory.
       file:
-        path: "{{ drupal_core_path }}/sites/default/files"
+        path: "{{ drupal_core_path }}/sites/{{ site }}/files"
         mode: 0777
         state: directory
         recurse: yes

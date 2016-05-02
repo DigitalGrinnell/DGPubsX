@@ -5,7 +5,7 @@ To provision the target server clone this project to the server's /tmp directory
 Change directory to this new folder and run ansible-playbook as so...
 
     cd /tmp/DGPubsX
-    ansible-playbook -vvv provisioning/playbook.yml --connection=local:
+    ansible-playbook -vvv provisioning/playbook.yml --connection=local: --ask-vault-pass
 
 
 # Simple Drupal Development VM
