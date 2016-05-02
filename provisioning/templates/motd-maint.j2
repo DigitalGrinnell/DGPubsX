@@ -7,7 +7,9 @@ Ansible installation on this server was per the following:
 To provision the target server clone this project to the server's /tmp directory (this should create /tmp/DGPubsX).
 Change directory to this new folder and run ansible-playbook as so...
 
-    cd /tmp/DGPubsX/drupal
+    cd /tmp
+    git clone https://github.com/McFateM/DGPubsX.git
+    cd DGPubsX/drupal
     ansible-playbook -vvv provisioning/playbook.yml --connection=local: --ask-vault-pass
 
 
