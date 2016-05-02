@@ -1,0 +1,10 @@
+<VirtualHost *:80>
+    ServerAdmin mcfatem@grinnell.edu
+    ServerName {{ domain }}
+    ServerAlias {{ domain }}
+    DocumentRoot {{ drupal_core_path }}
+    <Directory "{{ drupal_core_path }}">
+        Options FollowSymLinks Indexes
+        AllowOverride All
+    </Directory>
+</VirtualHost>
