@@ -1,0 +1,15 @@
+Apache server logs can be monitored using
+  'tail -f  /var/log/apache2/error.log'.  The Apache configuration is largely
+  in /etc/apache2/sites-available/...  Enjoy!
+Ansible installation on this server was per the following:
+  http://docs.ansible.com/ansible/intro_installation.html#latest-releases-via-apt-ubuntu
+
+Run MySQL from the command line using...
+  mysql -u root -p      ...and enter the root database password when prompted.
+  SHOW DATABASES;       ...to see all databases.
+
+Edit the last of '/etc/php5/cli/php.ini' to enable/disable drush debugging and profiling or
+  unset XDEBUG_CONFIG
+To start Drush console (command line) debugging in PHPStorm...
+  export PHP_IDE_CONFIG="serverName=dgpubsx.grinnell.edu"
+  export XDEBUG_CONFIG="idekey=PHPSTORM remote_port=9000 remote_host="
