@@ -52,6 +52,8 @@
         owner: root
         group: root
         mode: 0755
+
+    - name: Add motd command link to /usr/local/bin.
       file:
         src: /usr/local/bin/dynmotd
         dest: /usr/local/bin/motd
