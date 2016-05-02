@@ -45,6 +45,18 @@
         - mysql-server
         - figlet
 
+    - name: Add dynmotd to /usr/local/bin.
+      template:
+        src: "templates/dynmotd.j2"
+        dest: "/usr/local/bin/dynmotd"
+        owner: root
+        group: root
+        mode: 0755
+      file:
+        src: /usr/local/bin/dynmotd
+        dest: /usr/local/bin/motd
+        state: link
+
     - name: Add motd-maint template to /etc.
       template:
         src: "templates/motd-maint.j2"
@@ -147,13 +159,15 @@
         drush si -y --site-name="{{ drupal_site_name }}"
         --account-name=admin
         --account-pass=admin
-        --db-url=mysql://root@localhost/{{ site }}
         --db-su:{{ db_user }}
         --db-su-pw:{{ db_password }}
         --sites-subdir:{{ site }}
         chdir={{ drupal_core_path }}
         creates={{ drupal_core_path }}/sites/{{ site }}/settings.php
       notify: restart apache
+
+#       --db-url=mysql://{{ db_user }}:{{ db_password }}@localhost/{{ site }}
+
 
     # SEE: https://drupal.org/node/2121849#comment-8413637
     - name: Set permissions properly on settings.php.

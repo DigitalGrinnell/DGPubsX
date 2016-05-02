@@ -6,7 +6,7 @@ Change directory to this new folder and run ansible-playbook as so...
 
         cd /tmp
         git clone https://github.com/McFateM/DGPubsX.git
-        cd DGPubsX/drupal
+        cd DGPubsX
         ansible-playbook -vvv provisioning/playbook.yml --connection=local: --ask-vault-pass
 
 # Simple Drupal Development VM
