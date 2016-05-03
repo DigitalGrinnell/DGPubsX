@@ -24,7 +24,7 @@
     - name: Add ondrej repository for later versions of PHP.
       apt_repository: repo='ppa:ondrej/php5' update_cache=yes
 
-# The next two plays lifted from http://techwatch.keeward.com/geeks-and-nerds/properly-install-mysql-on-production-server-using-ansible/
+# The next two tasks lifted from http://techwatch.keeward.com/geeks-and-nerds/properly-install-mysql-on-production-server-using-ansible/
 
     - name: Set MySQL root password before installing
       debconf: name='mysql-server' question='mysql-server/root_password' value='{{ db_password | quote }}' vtype='password'
@@ -128,7 +128,7 @@
         owner: root
         mode: 0600
 
-# The next three plays lifted from http://techwatch.keeward.com/geeks-and-nerds/properly-install-mysql-on-production-server-using-ansible/
+# The next three tasks lifted from http://techwatch.keeward.com/geeks-and-nerds/properly-install-mysql-on-production-server-using-ansible/
 
     - name: Deletes anonymous MySQL server user for localhost
       mysql_user: user="" state="absent" login_password="{{ db_password | quote }}" login_user=root
@@ -139,7 +139,6 @@
         - 127.0.0.1
         - localhost
         - ::1
-#       - "{{ ansible_fqdn }}"
 
     - name: Removes the MySQL test database
       mysql_db: db=test state=absent login_password="{{ db_password | quote }}" login_user=root
@@ -194,11 +193,11 @@
     - name: Install Drupal.
       command: >
         drush si -y --site-name="{{ drupal_site_name }}"
-        --account-name=admin
-        --account-pass=admin
-        --db-su:{{ db_user }}
-        --db-su-pw:{{ db_password }}
-        --sites-subdir:{{ site }}
+        --account-name="System Admin"
+        --account-pass={{ admin_password | quote }}
+        --db-su=root
+        --db-su-pw={{ db_password | quote }}
+        --sites-subdir={{ site }}
         chdir={{ drupal_core_path }}
         creates={{ drupal_core_path }}/sites/{{ site }}/settings.php
       notify: restart apache
