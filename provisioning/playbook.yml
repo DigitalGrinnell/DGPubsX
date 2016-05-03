@@ -100,8 +100,8 @@
     - name: Change /etc/apache2/sites-available/000-default.conf document root
       lineinfile:
         dest: "/etc/apache2/sites-available/000-default.conf"
-        line: "{{ drupal_core_path }}"
-        regexp: "/\\/var\\/www\\/html/"
+        line: "  DocumentRoot {{ drupal_core_path }}"
+        regexp: "/.+DocumentRoot.\\/var\\/www\\/html/"
         state: present
 
     - name: Symlink Drupal virtualhost to sites-enabled.
