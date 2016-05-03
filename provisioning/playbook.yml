@@ -88,6 +88,16 @@
       apache2_module: name=rewrite state=present
       notify: restart apache
 
+    - name: Add our own 000-default.conf for Apache
+      template:
+        src: "templates/000-default.conf.j2"
+        dest: "/etc/apache2/sites-available/000-default.conf"
+        owner: root
+        group: root
+        mode: 0644
+        backup: yes
+      notify: restart apache
+
     - name: Add Apache virtualhost for Drupal development.
       template:
         src: "templates/drupal.dev.conf.j2"
@@ -96,13 +106,6 @@
         group: root
         mode: 0644
       notify: restart apache
-
-    - name: Change /etc/apache2/sites-available/000-default.conf document root
-      lineinfile:
-        dest: "/etc/apache2/sites-available/000-default.conf"
-        line: "  DocumentRoot {{ drupal_core_path }}"
-        regexp: "/.+DocumentRoot.\\/var\\/www\\/html/"
-        state: present
 
     - name: Symlink Drupal virtualhost to sites-enabled.
       file:
