@@ -128,18 +128,6 @@
         owner: root
         mode: 0600
 
-#    - name: Update mysql root password
-#      mysql_user:
-#        name: root
-#        host: localhost
-#        password: "{{ db_password }}"
-
-    - name: Ensure anonymous users are not in the database
-      mysql_user:
-        name: ''
-        host: localhost
-        state: absent
-
     - name: Remove the test database
       mysql_db:
         name: test
