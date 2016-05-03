@@ -27,10 +27,10 @@
 # The next two tasks lifted from http://techwatch.keeward.com/geeks-and-nerds/properly-install-mysql-on-production-server-using-ansible/
 
     - name: Set MySQL root password before installing
-      debconf: name='mysql-server' question='mysql-server/root_password' value='{{ db_password | quote }}' vtype='password'
+      debconf: name='mysql-server' question='mysql-server/root_password' value={{ db_password | quote }} vtype='password'
 
     - name: Confirm MySQL root password before installing
-      debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{ db_password | quote }}' vtype='password'
+      debconf: name='mysql-server' question='mysql-server/root_password_again' value={{ db_password | quote }} vtype='password'
 
     - name: "Install Apache, MySQL, PHP, and other dependencies."
       apt: "name={{ item }} state=present"
@@ -131,23 +131,23 @@
 # The next three tasks lifted from http://techwatch.keeward.com/geeks-and-nerds/properly-install-mysql-on-production-server-using-ansible/
 
     - name: Deletes anonymous MySQL server user for localhost
-      mysql_user: user="" state="absent" login_password="{{ db_password | quote }}" login_user=root
+      mysql_user: user="" state="absent" login_password={{ db_password | quote }} login_user=root
 
     - name: Secures the MySQL root user
-      mysql_user: user="root" password="{{ db_password | quote }}" host="{{ item }}" login_password="{{ db_password | quote }}" login_user=root
+      mysql_user: user="root" password={{ db_password | quote }} host="{{ item }}" login_password={{ db_password | quote }} login_user=root
       with_items:
         - 127.0.0.1
         - localhost
         - ::1
 
     - name: Removes the MySQL test database
-      mysql_db: db=test state=absent login_password="{{ db_password | quote }}" login_user=root
+      mysql_db: db=test state=absent login_password={{ db_password | quote }} login_user=root
 
     - name: Create a database for Drupal.
       mysql_db:
         db: drupal
         state: present
-        login_password: "{{ db_password | quote }}"
+        login_password: {{ db_password | quote }}
         login_user: root
 
     - name: Download Composer installer.
