@@ -27,10 +27,10 @@
 # The next two tasks lifted from http://techwatch.keeward.com/geeks-and-nerds/properly-install-mysql-on-production-server-using-ansible/
 
     - name: Set MySQL root password before installing
-      debconf: name='mysql-server' question='mysql-server/root_password' value={{ db_password | quote }} vtype='password'
+      debconf: name='mysql-server' question='mysql-server/root_password' value='{{ db_password }}' vtype='password'
 
     - name: Confirm MySQL root password before installing
-      debconf: name='mysql-server' question='mysql-server/root_password_again' value={{ db_password | quote }} vtype='password'
+      debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{ db_password }}' vtype='password'
 
     - name: "Install Apache, MySQL, PHP, and other dependencies."
       apt: "name={{ item }} state=present"
@@ -131,20 +131,20 @@
 # The next three tasks lifted from http://techwatch.keeward.com/geeks-and-nerds/properly-install-mysql-on-production-server-using-ansible/
 
     - name: Deletes anonymous MySQL server user for localhost
-      mysql_user: user="" state="absent" login_password={{ db_password | quote }} login_user=root
+      mysql_user: user="" state="absent" login_password='{{ db_password }}' login_user=root
 
     - name: Secures the MySQL root user
-      mysql_user: user="root" password={{ db_password | quote }} host="{{ item }}" login_password={{ db_password | quote }} login_user=root
+      mysql_user: user="root" password='{{ db_password }}' host="{{ item }}" login_password='{{ db_password }}' login_user=root
       with_items:
         - 127.0.0.1
         - localhost
         - ::1
 
     - name: Removes the MySQL test database
-      mysql_db: db=test state=absent login_password={{ db_password | quote }} login_user=root
+      mysql_db: db=test state=absent login_password='{{ db_password }}' login_user=root
 
     - name: Create a database for Drupal.
-      mysql_db: db=drupal state=present login_password={{ db_password | quote }} login_user=root
+      mysql_db: db=drupal state=present login_password='{{ db_password }}' login_user=root
 
     - name: Download Composer installer.
       get_url:
@@ -191,7 +191,7 @@
         drush si -y --site-name="{{ drupal_site_name }}"
         --account-name="System Admin"
         --account-pass={{ admin_password | quote }}
-        --db-url=mysql://root:{{ db_password | quote }}@localhost/{{ site }}
+        --db-url=mysql://root:'{{ db_password }}'@localhost/{{ site }}
         --sites-subdir={{ site }}
         chdir={{ drupal_core_path }}
         creates={{ drupal_core_path }}/sites/{{ site }}/settings.php
@@ -201,6 +201,15 @@
 #      --db-su=root
 #      --db-su-pw={{ db_password | quote }}
 
+   - name: Rsync ../sites/example.sites.php to ../sites/sites.php
+     synchronize: mode=push src={{ drupal_core_path }}/sites/example.sites.php dest={{ drupal_core_path }}/sites/sites.php
+
+   - name: Add our site to ../sites/sites.php
+     lineinfile:
+       dest: "{{ drupal_core_path }}/sites/sites.php"
+       line: "$sites[rootstalk.grinnell.edu] = rootstalk"
+       line: "$sites[dgpubsx.grinnell.edu.rootstalk] = rootstalk"
+       state: present
 
     # SEE: https://drupal.org/node/2121849#comment-8413637
     - name: Set permissions properly on settings.php.
