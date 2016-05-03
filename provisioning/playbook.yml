@@ -144,11 +144,7 @@
       mysql_db: db=test state=absent login_password={{ db_password | quote }} login_user=root
 
     - name: Create a database for Drupal.
-      mysql_db:
-        db: drupal
-        state: present
-        login_password: {{ db_password | quote }}
-        login_user: root
+      mysql_db: db=drupal state=present login_password={{ db_password | quote }} login_user=root
 
     - name: Download Composer installer.
       get_url:
