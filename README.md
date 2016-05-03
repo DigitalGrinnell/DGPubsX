@@ -4,10 +4,10 @@ This project was built from the project which is documented below.
 To provision the target server clone this project to the server's /tmp directory (this should create /tmp/DGPubsX).
 Change directory to this new folder and run ansible-playbook as so...
 
-        cd /tmp
-        git clone https://github.com/McFateM/DGPubsX.git
-        cd DGPubsX
-        ansible-playbook -vvv provisioning/playbook.yml --connection=local: --ask-vault-pass
+cd /tmp
+git clone https://github.com/McFateM/DGPubsX.git
+cd DGPubsX
+ansible-playbook -vvv provisioning/playbook.yml --connection=local: --ask-vault-pass
 
 # Simple Drupal Development VM
 

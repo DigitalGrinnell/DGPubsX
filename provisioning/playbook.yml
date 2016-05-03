@@ -201,15 +201,20 @@
 #      --db-su=root
 #      --db-su-pw={{ db_password | quote }}
 
-   - name: Rsync ../sites/example.sites.php to ../sites/sites.php
-     synchronize: mode=push src={{ drupal_core_path }}/sites/example.sites.php dest={{ drupal_core_path }}/sites/sites.php
+    - name: Rsync ../sites/example.sites.php to ../sites/sites.php
+      synchronize: mode=push src={{ drupal_core_path }}/sites/example.sites.php dest={{ drupal_core_path }}/sites/sites.php
 
-   - name: Add our site to ../sites/sites.php
-     lineinfile:
-       dest: "{{ drupal_core_path }}/sites/sites.php"
-       line: "$sites[rootstalk.grinnell.edu] = rootstalk"
-       line: "$sites[dgpubsx.grinnell.edu.rootstalk] = rootstalk"
-       state: present
+    - name: Add our site to ../sites/sites.php
+      lineinfile:
+        dest: "{{ drupal_core_path }}/sites/sites.php"
+        line: "$sites[{{ site }}.grinnell.edu] = {{ site }}"
+        state: present
+
+    - name: Add our site to ../sites/sites.php
+      lineinfile:
+        dest: "{{ drupal_core_path }}/sites/sites.php"
+        line: "$sites[dgpubsx.grinnell.edu.rootstalk] = {{ site }}"
+        state: present
 
     # SEE: https://drupal.org/node/2121849#comment-8413637
     - name: Set permissions properly on settings.php.
