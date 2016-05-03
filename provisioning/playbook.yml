@@ -24,6 +24,14 @@
     - name: Add ondrej repository for later versions of PHP.
       apt_repository: repo='ppa:ondrej/php5' update_cache=yes
 
+# The next two plays lifted from http://techwatch.keeward.com/geeks-and-nerds/properly-install-mysql-on-production-server-using-ansible/
+
+    - name: Set MySQL root password before installing
+      debconf: name='mysql-server' question='mysql-server/root_password' value='{{ db_password | quote }}' vtype='password'
+
+    - name: Confirm MySQL root password before installing
+      debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{ db_password | quote }}' vtype='password'
+
     - name: "Install Apache, MySQL, PHP, and other dependencies."
       apt: "name={{ item }} state=present"
       with_items:
@@ -120,23 +128,11 @@
         owner: root
         mode: 0600
 
-    - name: Update mysql root password
-      mysql_user:
-        name: root
-        host: localhost
-        password: "{{ db_password }}"
-
-#    # 'localhost' needs to be the last item for idempotency, see
-#    # http://ansible.cc/docs/modules.html#mysql-user
-#    - name: Update mysql root password for all root accounts
+#    - name: Update mysql root password
 #      mysql_user:
 #        name: root
-#        host: "{{ item }}"
+#        host: localhost
 #        password: "{{ db_password }}"
-#      with_items:
-#        - 127.0.0.1
-#        - ::1
-#        - localhost
 
     - name: Ensure anonymous users are not in the database
       mysql_user:
