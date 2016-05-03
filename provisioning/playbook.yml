@@ -207,13 +207,13 @@
     - name: Add our site to ../sites/sites.php
       lineinfile:
         dest: "{{ drupal_core_path }}/sites/sites.php"
-        line: "$sites[{{ site }}.grinnell.edu] = {{ site }}"
+        line: "$sites[{{ site }}.grinnell.edu] = '{{ site }}';"
         state: present
 
     - name: Add our site to ../sites/sites.php
       lineinfile:
         dest: "{{ drupal_core_path }}/sites/sites.php"
-        line: "$sites[dgpubsx.grinnell.edu.rootstalk] = {{ site }}"
+        line: "$sites[dgpubsx.grinnell.edu.rootstalk] = '{{ site }}';"
         state: present
 
     # SEE: https://drupal.org/node/2121849#comment-8413637
