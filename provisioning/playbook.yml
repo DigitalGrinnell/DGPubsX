@@ -195,14 +195,15 @@
         drush si -y --site-name="{{ drupal_site_name }}"
         --account-name="System Admin"
         --account-pass={{ admin_password | quote }}
-        --db-su=root
-        --db-su-pw={{ db_password | quote }}
+        --db-url=mysql://root:{{ db_password | quote }}@localhost/{{ site }}
         --sites-subdir={{ site }}
         chdir={{ drupal_core_path }}
         creates={{ drupal_core_path }}/sites/{{ site }}/settings.php
       notify: restart apache
 
-#       --db-url=mysql://{{ db_user }}:{{ db_password }}@localhost/{{ site }}
+#      --db-url=mysql://root:{{ db_password | quote }}@localhost/{{ site }}
+#      --db-su=root
+#      --db-su-pw={{ db_password | quote }}
 
 
     # SEE: https://drupal.org/node/2121849#comment-8413637
