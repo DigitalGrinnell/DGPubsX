@@ -101,7 +101,7 @@
       lineinfile:
         dest: "/etc/apache2/sites-available/000-default.conf"
         line: "{{ drupal_core_path }}"
-        regexp: "r|/var/www/html|"
+        regexp: "r/\/var\/www\/html/"
         state: present
 
     - name: Symlink Drupal virtualhost to sites-enabled.
