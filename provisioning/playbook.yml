@@ -106,7 +106,7 @@
 
     - name: Remove default virtualhost file.
       file:
-        path: "/etc/apache2/sites-enabled/000-default"
+        path: "/etc/apache2/sites-enabled/000-default.conf"
         state: absent
       notify: restart apache
 
@@ -213,7 +213,7 @@
     - name: Add our site to ../sites/sites.php
       lineinfile:
         dest: "{{ drupal_core_path }}/sites/sites.php"
-        line: "$sites[dgpubsx.grinnell.edu.rootstalk] = '{{ site }}';"
+        line: "$sites[{{ server }}.grinnell.edu.{{ site }}] = '{{ site }}';"
         state: present
 
     # SEE: https://drupal.org/node/2121849#comment-8413637
