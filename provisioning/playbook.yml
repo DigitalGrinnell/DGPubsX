@@ -97,6 +97,13 @@
         mode: 0644
       notify: restart apache
 
+    - name: Change /etc/apache2/sites-available/000-default.conf document root
+      lineinfile:
+        dest: "/etc/apache2/sites-avaialble/000-default.conf"
+        line: "{{ drupal_core_path }}"
+        regexp: "\/var\/www\/html"
+        state: present
+
     - name: Symlink Drupal virtualhost to sites-enabled.
       file:
         src: "/etc/apache2/sites-available/{{ site }}.conf"
@@ -207,13 +214,13 @@
     - name: Add our site to ../sites/sites.php
       lineinfile:
         dest: "{{ drupal_core_path }}/sites/sites.php"
-        line: "$sites[{{ site }}.grinnell.edu] = '{{ site }}';"
+        line: "$sites['{{ server }}.grinnell.edu'] = '{{ site }}';"
         state: present
 
     - name: Add our site to ../sites/sites.php
       lineinfile:
         dest: "{{ drupal_core_path }}/sites/sites.php"
-        line: "$sites[{{ server }}.grinnell.edu.{{ site }}] = '{{ site }}';"
+        line: "$sites['{{ server }}.grinnell.edu.{{ site }}'] = '{{ site }}';"
         state: present
 
     # SEE: https://drupal.org/node/2121849#comment-8413637
