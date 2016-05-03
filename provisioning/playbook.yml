@@ -239,6 +239,14 @@
         state: directory
         recurse: yes
 
+    - name: Check out the Drupal 'bootstrap' theme
+      git: repo=http://git.drupal.org/project/bootstrap.git dest={{ drupal_core_path }}/sites/{{ site }}/themes/bootstrap
+
+    - name: Apply the 'bootstrap' theme as the default
+      command: >
+        drush -u 1 vset theme_default bootstrap
+        chdir={{ drupal_core_path }}/sites/{{ site }}
+
     - name: Set group ownership to www-data.
       file:
         path: "{{ drupal_core_path }}"
