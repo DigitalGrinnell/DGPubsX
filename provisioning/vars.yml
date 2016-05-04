@@ -20,8 +20,9 @@ drupal_site_name: "ROOTSTALK"
 
 # The default theme for site
 theme: "bootstrap"
-theme_git: "https://github.com/drupalprojects/bootstrap.git"
 
+# The development user ID
+dev_user: "rootstalker"
 
 
 
