@@ -271,7 +271,7 @@
 
     - name: Add authorized development key
       authorized_key: user="{{ login }}"
-                      key="templates/id_rsa.pub.j2"
+                      key="{{ lookup('file', 'provision/templates/id_rsa.pub') }}"
                       path="/home/{{ login }}/.ssh/authorized_keys"
                       manage_dir=no
       remote_user: "{{ login }}"
@@ -299,7 +299,7 @@
 
     - name: Add authorized development key
       authorized_key: user="{{ dev_user }}"
-                      key="templates/id_rsa.pub.j2"
+                      key="{{ lookup('file', 'provision/templates/id_rsa.pub') }}"
                       path="/home/{{ dev_user }}/.ssh/authorized_keys"
                       manage_dir=no
       remote_user: "{{ dev_user }}"
