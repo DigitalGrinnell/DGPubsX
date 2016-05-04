@@ -5,6 +5,7 @@
 
   vars_files:
     - vars.yml
+    - credentials.yml
 
   pre_tasks:
     - name: Update apt cache if needed.
@@ -217,13 +218,13 @@
     - name: Add our site to ../sites/sites.php
       lineinfile:
         dest: "{{ drupal_core_path }}/sites/sites.php"
-        line: "$sites['{{ server }}.grinnell.edu'] = '{{ site }}';"
+        line: "$sites['{{ domain }}'] = '{{ site }}';"
         state: present
 
     - name: Add our site to ../sites/sites.php
       lineinfile:
         dest: "{{ drupal_core_path }}/sites/sites.php"
-        line: "$sites['{{ server }}.grinnell.edu.{{ site }}'] = '{{ site }}';"
+        line: "$sites['{{ domain }}.{{ site }}'] = '{{ site }}';"
         state: present
 
     # SEE: https://drupal.org/node/2121849#comment-8413637
@@ -239,12 +240,12 @@
         state: directory
         recurse: yes
 
-    - name: Check out the Drupal 'bootstrap' theme
-      git: repo=http://git.drupal.org/project/bootstrap.git dest={{ drupal_core_path }}/sites/{{ site }}/themes/bootstrap
+    - name: Check out the Drupal theme specifed in vars.yml
+      git: repo={{ theme_git }} dest={{ drupal_core_path }}/sites/{{ site }}/themes/{{ theme }}
 
-    - name: Apply the 'bootstrap' theme as the default
+    - name: Apply the theme as the default
       command: >
-        drush -u 1 vset theme_default bootstrap
+        drush -u 1 vset theme_default {{ theme }}
         chdir={{ drupal_core_path }}/sites/{{ site }}
 
     - name: Set group ownership to www-data.
