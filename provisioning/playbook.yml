@@ -15,8 +15,8 @@
     - name: restart apache
       service: name=apache2 state=restarted
 
-    - name: restart sshd
-      service: name=sshd state=restarted
+    - name: restart ssh
+      service: name=ssh state=restarted
 
   tasks:
     - name: Get software for apt repository management.
@@ -276,7 +276,7 @@
                       manage_dir=no
       remote_user: "{{ login }}"
       notify:
-      - restart sshd
+      - restart ssh
 
 # The following 4 tasks lifted from http://a-fro.com/ansible-and-drupal-development-part-2
 
@@ -304,5 +304,5 @@
                       manage_dir=no
       remote_user: "{{ dev_user }}"
       notify:
-      - restart sshd
+      - restart ssh
 
