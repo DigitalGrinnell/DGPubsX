@@ -312,4 +312,4 @@
       command: >
         drush ucrt "{{ item.name }}" --mail="{{ item.email }}" --password="{{ item.password }}"
         chdir={{ drupal_core_path }}/sites/{{ site }}
-      with_items: {{ admin_list }}
+      with_items: "{{ admin_list }}"
