@@ -240,8 +240,18 @@
         state: directory
         recurse: yes
 
-    - name: Check out the Drupal theme specifed in vars.yml
-      git: repo={{ theme_git }} dest={{ drupal_core_path }}/sites/{{ site }}/themes/{{ theme }}
+#    - name: Download the theme specifed in vars.yml
+#      git: repo={{ theme_git }} dest={{ drupal_core_path }}/sites/{{ site }}/themes/{{ theme }}
+
+    - name: Download the theme specified in vars.yml
+      command: >
+        drush -u 1 -y dl {{ theme }} --use-site-dir
+        chdir={{ drupal_core_path }}/sites/{{ site }}
+
+    - name: Enable the theme specified in vars.yml
+      command: >
+        drush -u 1 -y en {{ theme }}
+        chdir={{ drupal_core_path }}/sites/{{ site }}
 
     - name: Apply the theme as the default
       command: >
