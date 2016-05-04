@@ -21,8 +21,15 @@ drupal_site_name: "ROOTSTALK"
 # The default theme for site
 theme: "bootstrap"
 
-# The development user ID
+# The development user ID on the server
 dev_user: "rootstalker"
+
+# List of Drupal site admins
+admin_list:
+  - { name: 'ajuna', email: 'kyaruzia17@grinnell.edu', password: 'password' }
+  - { name: 'mackenzie', email: 'mcfatema@grinnell.edu', password: 'password' }
+
+
 
 
 
