@@ -306,10 +306,16 @@
       notify:
       - restart ssh
 
-# Add some Drupal site admins from the vars.yml file
+# Add some Drupal site admins from the credentials.yml file
 
-    - name: Add Drupal admin users from the vars.yml file
+    - name: Add Drupal admin users from the credentials.yml file
       command: >
         drush ucrt "{{ item.name }}" --mail="{{ item.email }}" --password="{{ item.password }}"
+        chdir={{ drupal_core_path }}/sites/{{ site }}
+      with_items: "{{ admin_list }}"
+
+    - name: Make each user a site admin
+      command: >
+        drush urol "administrator" "{{ item.name }}"
         chdir={{ drupal_core_path }}/sites/{{ site }}
       with_items: "{{ admin_list }}"
