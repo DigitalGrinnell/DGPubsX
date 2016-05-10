@@ -5,7 +5,7 @@ To provision the target server clone this project to the server's /tmp directory
 Change directory to this new folder and run ansible-playbook as so...
 
 cd /tmp;
-git clone https://github.com/McFateM/DGPubsX.git;
+git clone https://github.com/DigitalGrinnell/DGPubsX.git;
 cd DGPubsX; 
 ansible-playbook -vvv provisioning/playbook.yml --connection=local: --ask-vault-pass;
 
