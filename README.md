@@ -1,6 +1,6 @@
 # DGPubsX Server Configuration using Ansible
 
-This is the 'localVM' branch of my DGPubsX project.  localVM includes a Vagrantfile which the original DGPubsX does not have since that project was built only to provision an existing virtual machine.  localVM, via its Vagrantfile, is intended to build a duplicate copy of DGPubsX in a local VM running on your host computer, not on any ITS-provided server.   The Vagrantfile used here was borrowed from the project at github.com/DigitalGrinnell/drupal-vm.
+This is the 'localCentOS' branch of my DGPubsX project.  localVM, the predecessor to this branch, includes a Vagrantfile which the original DGPubsX does not have since that project was built only to provision an existing virtual machine.  localVM, via its Vagrantfile, is intended to build a duplicate copy of DGPubsX in a local VM running on your host computer, not on any ITS-provided server.  localCentOS takes this departure one step further, and tries to build this VM in CentOS rather than Ubuntu. The Vagrantfile used here was borrowed from the project at github.com/DigitalGrinnell/drupal-vm.
 
 This project, DGPubsX, was built from the project which is documented below.
 To provision the target server clone this project to the server's /tmp directory (this should create /tmp/DGPubsX).
