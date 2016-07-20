@@ -2,11 +2,11 @@
 # This is vars.yml, intended to hold configuration variables which are NOT TO BE ENCRYPTED.
 # Be sure to use credentials.yml for all PROTECTED variables!
 
-# The server name
-server: "dgpubsx"
+# The server name...probably should match a portion of the vagrant_hostname
+server: "dgpubs"
 
-# The resulting domain name 
-domain: "{{ server }}.grinnell.edu"
+# The resulting domain name...probably should match vagrant_hostname
+domain: "{{ server }}.dev"
 
 # The core version you want to use (e.g. 6.x, 7.x, 8.0.x).
 drupal_core_version: "7.x"
@@ -23,6 +23,9 @@ theme: "bootstrap"
 
 # The development user ID on the server
 dev_user: "rootstalker"
+
+# The apache user...generally 'www-data' for Ubuntu or 'apache' for CentOS.
+apache_user: "www-data"
 
 
 

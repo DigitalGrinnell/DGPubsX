@@ -215,8 +215,8 @@
 #      --db-su=root
 #      --db-su-pw={{ db_password | quote }}
 
-    - name: Rsync ../sites/example.sites.php to ../sites/sites.php
-      synchronize: mode=push src={{ drupal_core_path }}/sites/example.sites.php dest={{ drupal_core_path }}/sites/sites.php
+    - name: Copy ../sites/example.sites.php to ../sites/sites.php
+      command: cp "{{ drupal_core_path }}/sites/example.sites.php" "{{ drupal_core_path }}/sites/sites.php" creates="{{ drupal_core_path }}/sites/sites.php"
 
     - name: Add our site to ../sites/sites.php
       lineinfile:
@@ -261,22 +261,22 @@
         drush -u 1 vset theme_default {{ theme }}
         chdir={{ drupal_core_path }}/sites/{{ site }}
 
-    - name: Set group ownership to www-data.
+    - name: Set group ownership to the apache user.
       file:
         path: "{{ drupal_core_path }}"
-        group: "www-data"
+        group: "{{ apache_user }}"
         recurse: yes
 
-# Add the development key to the {{ login }} user's home
-
-    - name: Add authorized key for the login user
-      authorized_key: user="{{ login }}"
-                      key="{{ lookup('file', 'templates/id_rsa.pub') }}"
-                      path="/home/{{ login }}/.ssh/authorized_keys"
-                      manage_dir=no
-      remote_user: "{{ login }}"
-      notify:
-      - restart ssh
+# Add the development key to the {{ login }} user's home.  Should not be necessary for a local VM!
+#
+#   - name: Add authorized key for the login user
+#     authorized_key: user="{{ login }}"
+#                     key="{{ lookup('file', 'templates/id_rsa.pub') }}"
+#                     path="/home/{{ login }}/.ssh/authorized_keys"
+#                     manage_dir=no
+#     remote_user: "{{ login }}"
+#     notify:
+#     - restart ssh
 
 # The following 4 tasks lifted from http://a-fro.com/ansible-and-drupal-development-part-2
 

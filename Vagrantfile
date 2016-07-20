@@ -122,7 +122,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   if which('ansible-playbook')
     config.vm.provision 'ansible' do |ansible|
       ansible.playbook = "#{host_drupalvm_dir}/provisioning/playbook.yml"
-      ansible.verbose = "-vvv"
+      ansible.verbose = "true"
       ansible.vault_password_file = "/Users/markmcfate/Documents/.ansible-vault-password"
 #MAM  ansible.galaxy_role_file = "#{host_drupalvm_dir}/provisioning/requirements.yml"
       ansible.extra_vars = {
